@@ -1,0 +1,19 @@
+{
+  "name": "phaser3-study2",
+  "version": "1.0.0",
+  "description": "## 学習用のレポジトリ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@hiroshees.github.com:hiroshees/phaser3-study2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  }
+}
