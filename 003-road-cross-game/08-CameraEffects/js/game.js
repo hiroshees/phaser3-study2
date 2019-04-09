@@ -7,8 +7,8 @@ gameScene.init = function() {
   this.playerSpeed = 3;
 
   // enemy speed
-  this.enemyMinSpeed = 2;
-  this.enemyMaxSpeed = 4.5;
+  this.enemyMinSpeed = 1;
+  this.enemyMaxSpeed = 3;
 
   // boundaries
   this.enemyMinY = 80;
@@ -48,11 +48,11 @@ gameScene.create = function() {
   // enemy group
   this.enemies = this.add.group({
     key: 'enemy',
-    repeat: 5,
+    repeat: 4,
     setXY: {
       x: 90,
       y: 100,
-      stepX: 80,
+      stepX: 120,
       stepY: 20
     }
   });
@@ -80,9 +80,16 @@ gameScene.update = function(){
   if(this.isTerminating) return;
 
   // check for active input (left click / touch)
+  /*
   if(this.input.activePointer.isDown) {
-    // player walks
     this.player.x += this.playerSpeed;
+  }
+  */
+  var cursors = this.input.keyboard.createCursorKeys();
+  if(cursors.right.isDown) {
+    this.player.x += this.playerSpeed;
+  } else if(cursors.left.isDown) {
+    this.player.x -= this.playerSpeed;
   }
 
   // treasure overlap check
@@ -93,7 +100,9 @@ gameScene.update = function(){
     console.log('reached goal!');
 
     // end game
-    return this.gameOver();
+    this.scene.restart();
+    return;
+    //return this.gameOver();
   }
 
   // get enemies
@@ -119,7 +128,6 @@ gameScene.update = function(){
 
     if(Phaser.Geom.Intersects.RectangleToRectangle(playerRect, enemyRect)) {
       console.log('Game over!');
-
       // end game
       return this.gameOver();
     }
@@ -133,20 +141,24 @@ gameScene.gameOver = function() {
 
   // shake camera
   this.cameras.main.shake(500);
+  // fade out
+  //this.cameras.main.fadeOut(100);
+  // flash 
+  //this.cameras.main.flash(100);
+  // flash red
+  //this.cameras.main.flash(100, 255, 0, 0);
 
   // listen for event completion
+  
   this.cameras.main.on('camerashakecomplete', function(camera, effect){
-
     // fade out
-    this.cameras.main.fade(500);
+    this.cameras.main.fadeOut(1000, 0, 255, 0);
   }, this);
-
+  
   this.cameras.main.on('camerafadeoutcomplete', function(camera, effect){
     // restart the Scene
     this.scene.restart();
   }, this);
-
-
 };
 
 // set the configuration of the game
